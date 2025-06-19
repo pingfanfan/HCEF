@@ -4,16 +4,7 @@
 
 ## 🎯 Overview
 
-HCEF-LLM (Human-Centric Evaluation Framework for Large Language Models) is a comprehensive evaluation framework designed to assess Large Language Models as "Ideal Intelligent Partners" from a human-centric perspective. This project contains an interactive web-based leaderboard and visualization platform for comparing model performance across multiple dimensions.
-
-## 🌟 Features
-
-- **📊 Interactive Leaderboard**: Real-time ranking of LLMs based on comprehensive evaluation metrics
-- **📈 Advanced Visualizations**: Multiple chart types including radar charts, heatmaps, and scatter plots
-- **🌐 Bilingual Support**: Full English and Chinese language support
-- **📱 Responsive Design**: Optimized for desktop and mobile devices
-- **🎨 Modern UI**: Clean, professional interface with smooth animations
-
+HCEF-LLM (Human-Centric Evaluation Framework for Large Language Models) is a comprehensive evaluation framework designed to assess Large Language Models as "Ideal Intelligent Partners" from a human-centric perspective. This project contains an interactive web-based leaderboard and visualization platform for comparing model performance across multiple dimension
 ## 🏗️ Framework Structure
 
 ### Ideal Intelligent Partner (IIP) Functional Roles
