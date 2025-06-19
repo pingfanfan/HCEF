@@ -10,10 +10,10 @@ const modelData = [
         scores: {
             cd1: 94, // Input Processing & Comprehension
             cd2: 93, // Knowledge Retention & Application
-            cd3: 91, // Logical Reasoning & Problem Solving
-            cd4: 89, // Imaginative & Creative Cognition
-            cd5: 95, // Human-Centricity & Ethical Alignment
-            cd6: 93  // Output Generation & Delivery
+            cd3: 92, // Logical Reasoning & Problem Solving
+            cd4: 90, // Imaginative & Creative Cognition
+            cd5: 94, // Human-Centricity & Ethical Alignment
+            cd6: 92  // Output Generation & Delivery
         }
     },
     {
