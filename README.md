@@ -16,52 +16,119 @@ HCEF-LLM (Human-Centric Evaluation Framework for Large Language Models) is a com
 
 ## 🏗️ Framework Structure
 
-### Ideal Intelligent Partner Properties (IIP)
+### Ideal Intelligent Partner (IIP) Functional Roles
 
-1. **IIP1: Intelligence Level** - High-level cognitive, reasoning, and problem-solving capabilities
-2. **IIP2: Human-Oriented** - Human-centric understanding and adaptation
-3. **IIP3: Partnership** - Positive and complementary collaborative relationship
-4. **IIP4: Reliability** - Stable performance with reliable and consistent output
-5. **IIP5: Adaptability** - Flexible response to different scenarios and changing needs
-6. **IIP6: Security** - Ensuring interaction safety and user privacy protection
+1. **IIP-F1: Precise Instruction & Constraint Comprehension**
+   - Meticulous interpretation of directives
+   - Understanding explicit & implicit constraints
+   - Key aspects:
+     - Accurate interpretation of explicit directives
+     - Identification of implicit constraints and assumptions
+     - Scope definition and ambiguity resolution
+
+2. **IIP-F2: Deep Goal & Intent Understanding**
+   - Discerning underlying purpose
+   - Inferring user intent beyond literal requests
+   - Key aspects:
+     - Discernment of ultimate objectives
+     - Inferring user intent beyond literal requests
+     - Prioritization of multiple or conflicting goals
+
+3. **IIP-F3: Capable & Adaptive Task Execution**
+   - Effective and efficient task execution
+   - Resilience and adaptability in dynamic environments
+   - Key aspects:
+     - Effective task decomposition and strategic planning
+     - Intelligent resource allocation and tool utilization
+     - Robust exception handling and dynamic adaptation
+
+4. **IIP-F4: Quality-Assured Outcome Delivery & Responsible Closure**
+   - High-quality deliverable production
+   - Comprehensive and responsible task completion
+   - Key aspects:
+     - Adherence to delivery standards and formats
+     - Output self-assessment and iterative refinement
 
 ### Core Capability Dimensions (CD)
 
-1. **CD1: Input Processing & Comprehension** - Ability to understand and process various input formats
-   - Text comprehension
-   - Context understanding
-   - Instruction parsing
-   - Multimodal input processing
+The Core Capability Dimensions (CDs) are fundamental abilities required for proficient and human-aligned performance, derived from foundational aspects of intelligence. These dimensions are organized into six primary categories, each with specific sub-dimensions:
 
-2. **CD2: Knowledge Retention & Application** - Capacity to retain and apply learned knowledge
-   - Knowledge base
-   - Information retrieval
-   - Knowledge integration
-   - Practical application
+1. **CD1: Input Processing & Comprehension**
+   Essential for accurate information acquisition and deep understanding
+   - **CD1.1: Multimodal Information Acquisition**
+     - Processing various input modalities (text, visual, auditory)
+     - Initial gateway for subsequent processing
+     - Comprehensive input interpretation
+   - **CD1.2: Contextual & Intentional Understanding**
+     - Deep contextual relevance discernment
+     - User intent inference
+     - Pragmatic nuance comprehension
+     - Implicit assumption identification
 
-3. **CD3: Logical Reasoning & Problem Solving** - Skills in logical analysis and problem resolution
-   - Causal reasoning
-   - Logical analysis
-   - Problem decomposition
-   - Solution optimization
+2. **CD2: Knowledge Retention & Application**
+   Mechanisms for storing, retrieving, and utilizing information effectively
+   - **CD2.1: Dynamic Working Memory**
+     - Active information maintenance
+     - Context tracking capability
+     - Multi-step reasoning support
+     - Complex instruction processing
+   - **CD2.2: Accessible Long-Term Knowledge**
+     - Vast knowledge repository access
+     - Factual information retrieval
+     - Procedural knowledge application
+     - Common-sense understanding
 
-4. **CD4: Imaginative & Creative Cognition** - Creative thinking and innovative problem approaches
-   - Idea generation
-   - Cross-domain association
-   - Novel thinking
-   - Innovation application
+3. **CD3: Logical Reasoning & Problem Solving**
+    Essential for resolving ambiguities, planning, and solution assessment
+    - **CD3.1: Analytical & Inferential Reasoning**
+      - Inductive reasoning for pattern recognition
+      - Deductive reasoning for rule application
+      - Evidence-based inference generation
+      - Logical consequence derivation
+    - **CD3.2: Structured Problem Decomposition**
+      - Complex problem breakdown into sub-components
+      - Component relationship analysis
+      - Systematic solution development
+      - Strategic execution planning
 
-5. **CD5: Human-Centricity & Ethical Alignment** - Alignment with human values and ethical considerations
-   - Value alignment
-   - Ethical awareness
-   - Safety boundaries
-   - Privacy protection
+4. **CD4: Imaginative & Creative Cognition**
+    Non-standard thinking for novel ideas and abstract thought
+    - **CD4.1: Predictive & Generative Foresight**
+      - Future state anticipation
+      - Outcome prediction modeling
+      - Scenario generation
+      - Pattern-based completion
+    - **CD4.2: Novel Solution Ideation & Abstract Representation**
+      - Divergent thinking application
+      - Analogical connection making
+      - Abstract concept representation
+      - Unconventional solution generation
 
-6. **CD6: Output Generation & Delivery** - Quality and effectiveness of generated responses
-   - Clear expression
-   - Format compliance
-   - Quality control
-   - Effect evaluation
+5. **CD5: Human-Centricity & Ethical Alignment**
+    Understanding and aligning with human values and social norms
+    - **CD5.1: Empathetic & Social Awareness**
+      - Emotional cue recognition
+      - Social dynamic interpretation
+      - Interpersonal nuance understanding
+      - Socially intelligent interaction
+    - **CD5.2: Value Comprehension & Ethical Consideration**
+      - Human value understanding
+      - Ethical principle application
+      - Responsible AI framework alignment
+      - Ethical situation recognition
+
+6. **CD6: Output Generation & Delivery**
+    Production of clear, appropriate, and effective outputs
+    - **CD6.1: Clear & Coherent Communication**
+      - Grammatical correctness
+      - Logical structure formation
+      - Message clarity optimization
+      - Information conveyance effectiveness
+    - **CD6.2: Adaptive & Purposeful Expression**
+      - Context-appropriate style adaptation
+      - Audience-specific tone adjustment
+      - Tool utilization effectiveness
+      - Action execution precision
 
 ### Proficiency Descriptors (PD)
 
@@ -113,8 +180,8 @@ Each model is evaluated across all six capability dimensions and assigned an ove
 
 ## 👥 Authors
 
-- **Pingfan Wang** - Research Lead
-- **Linyuan Deng** - Technical Implementation (dolly_dev@163.com)
+- **Pingfan**
+- **Dolly**
 
 ## 📚 Citation
 
