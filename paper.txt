@@ -1,0 +1,761 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{authblk}
+\usepackage{array}
+\usepackage{tabularx} % Added for the new comparison table
+
+\newcommand*{\EqualContrib}{\thanks{These authors contributed equally to this work.}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=green,
+}
+\title{HCEF-LLM: A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners}
+
+\author[1]{Pingfan Wang}
+\author[2]{Linyuan Deng\EqualContrib}
+
+\affil[1]{Affiliation for Pingfan Wang, Department, University, City, Country \protect\\ \texttt{pingfan.wang@example.com}}
+\affil[2]{Additional Affiliation for Linyuan Deng , Independent researcher, ShenZhen, China \protect\\ \texttt{dolly\_dev@163.com}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Current evaluations of Large Language Models (LLMs), while pivotal in tracking performance on specific tasks, often fall short of capturing the nuanced capabilities required for deep human-AI synergy. They predominantly assess LLMs as sophisticated tools rather than as potential collaborators or partners. This paper introduces the Human-Centric Evaluation Framework for Large Language Models (HCEF-LLM), a novel paradigm designed to assess and guide the development of LLMs towards becoming Ideal Intelligent Partners (IIPs). The framework operationalizes this vision through two principal contributions: (1) a novel taxonomy of Core Capability Dimensions (CDs), which breaks down abstract partnership qualities like proactive reasoning and value alignment into a set of evaluable skills, and (2) a developmental scale of Proficiency Descriptors (PDs), which charts an LLM's progression from a nascent tool to an expert partner. By emphasizing real-world, ethically-salient scenarios, HCEF-LLM aims to provide a more meaningful measure of an LLM's readiness for complex, human-centric roles. A key strength of HCEF-LLM is its inherent robustness against superficial optimization; its grounding in authentic, process-oriented tasks ensures that efforts to improve performance against the framework directly translate to enhancing an LLM's real-world utility and human alignment, ultimately fostering the creation of AI that genuinely understands, empowers, and augments human potential.
+
+\end{abstract}
+
+\textbf{Keywords:} Large Language Models, Human-Centric AI,  Human-AI Collaboration, AGI Benchmarking, Trustworthy AI.
+
+
+\section{Introduction}
+\label{sec:introduction}
+Large Language Models (LLMs) represent a paradigm shift in artificial intelligence, demonstrating emergent capabilities that are reshaping domains from natural language processing to complex reasoning and code generation \cite{Brown2020GPT3,OpenAI2023GPT4,Chen2021Codex}. The rapid pace of advancement has been accompanied by an evolving landscape of evaluation benchmarks, including GLUE \cite{Wang2018GLUE}, SuperGLUE \cite{Wang2019SuperGLUE}, MMLU \cite{Hendrycks2020MMLU}, and BIG-Bench \cite{Srivastava2022BIGBench}. These benchmarks have undeniably served a critical purpose: providing standardized measures to track progress, compare models, and identify areas for improvement, thereby fueling the competitive and innovative spirit of the field.
+
+\subsection{The Deepening "Partnership Gap" in Current Evaluations}
+\label{ssec:gap_in_eval}
+Despite their contributions, a critical examination reveals that existing evaluation methodologies predominantly cast LLMs in the role of sophisticated information processors or specialized task executors. They excel at quantifying performance on discrete tasks, knowledge recall across diverse subjects, or proficiency in specific skills like summarization or translation. However, as LLMs become more deeply embedded in critical human endeavors—ranging from scientific discovery and medical diagnosis to education and creative arts—the societal and individual aspiration for these AIs transcends mere instrumental utility. There is a burgeoning expectation, and indeed a necessity, for LLMs to evolve into what we term \textbf{Ideal Intelligent Partners (IIPs)}: AI entities capable of nuanced understanding, proactive collaboration, ethical deliberation, and sustained, trust-based interaction \cite{Amershi2019GuidelinesHAI,Shneiderman2020HumanCenteredAI}.
+
+Current benchmarks, by their very design, offer limited purchase on assessing an LLM's aptitude for such partnership. They seldom probe:
+\begin{itemize}
+    \item[] \textbf{Depth of Understanding vs. Surface-Level Pattern Matching:} The ability to grasp unstated intent, contextual subtleties, emotional undertones, or the pragmatic function of language, as opposed to merely recognizing lexical patterns.
+    \item[] \textbf{Proactive Collaboration vs. Reactive Execution:} The capacity for initiative, strategic foresight, anticipatory problem-solving, and co-creation, rather than passively awaiting and executing explicit commands.
+    \item[] \textbf{Empathetic and Adaptive Interaction vs. Generic Output:} The skill to tailor communication style, demonstrate understanding of human affective states, and build rapport in dynamic, long-term interactions, as opposed to generating contextually plausible but emotionally detached responses.
+    \item[] \textbf{Principled Ethical Reasoning vs. Rule-Based Filtering:} The capability to navigate complex ethical dilemmas, demonstrate consistent value alignment even in novel situations, and provide justifiable explanations for ethically salient decisions, rather than simply adhering to predefined safety filters.
+    \item[] \textbf{Cultivation of Trust and Reliability vs. Single-Turn Accuracy:} The propensity to build and maintain user trust through consistent, transparent, and reliable behavior over extended engagements, as opposed to optimizing for correctness in isolated exchanges.
+\end{itemize}
+This disconnect between current evaluative foci and the desired attributes of an IIP constitutes a significant "partnership gap." High performance on existing leaderboards, while indicative of certain cognitive prowess, does not reliably predict an LLM's suitability as a collaborative, trustworthy, or ethically astute partner in complex, real-world settings.
+
+\subsection{Problem Statement: Charting the Course to Ideal Intelligent Partners}
+\label{ssec:problem}
+The central challenge addressed by this paper is the urgent need for a paradigm shift in LLM evaluation: from assessing isolated capabilities to holistically evaluating their integrated potential as Ideal Intelligent Partners. An IIP, as conceptualized herein, is not merely a more capable tool, but a synergistic counterpart that deeply understands human needs, collaborates effectively towards shared and evolving goals, anticipates challenges and opportunities, engages with ethical acuity, and fosters a relationship built on trust and mutual augmentation. The fundamental question is: how do we systematically measure, understand, and guide an LLM's trajectory towards embodying such partnership qualities?
+
+Existing evaluation frameworks lack the conceptual architecture and methodological tools to adequately address this "Partnership Quotient." Their results, often couched in technical metrics, provide insufficient insight for researchers aiming to cultivate these deeper attributes, for developers striving to build truly human-aligned AI, or for end-users seeking to understand an LLM's practical utility and trustworthiness beyond its technical specifications. This deficiency not only impedes targeted progress towards more beneficial AI but also risks a societal misalignment between the capabilities being optimized and the qualities most desired for profound human-AI synergy.
+
+\subsection{Aim and Objectives of HCEF-LLM: A New Compass for Evaluation}
+\label{ssec:aim_objectives}
+The overarching \textbf{Aim} of the Human-Centric Evaluation Framework for Large Language Models (HCEF-LLM) is to establish and operationalize a novel evaluation paradigm. This paradigm is designed to rigorously assess and systematically guide the development of LLMs, steering them towards embodying the multifaceted capabilities of an Ideal Intelligent Partner. HCEF-LLM seeks to catalyze the creation of AGI technologies that are not only powerful and versatile but also profoundly human-centric, ethically grounded, demonstrably trustworthy, and genuinely beneficial to society. A concurrent goal is to render the sophisticated capabilities of LLMs more transparent, interpretable, and understandable to a broad spectrum of users and stakeholders.
+
+To realize this ambitious aim, HCEF-LLM is driven by the following specific \textbf{Objectives}:
+\begin{enumerate}[label=\textbf{O\arabic*.}, wide, labelwidth=!, labelindent=0pt]
+    \item[] \textbf{Define and Elaborate the IIP Construct:} To move beyond simplistic metaphors by articulating a rich, theoretically grounded model of an Ideal Intelligent Partner, detailing its core attributes, expected behaviors, and the nature of the desired human-AI relationship.
+    \item[] \textbf{Deduce and Validate Core Capability Dimensions (CDs):} To systematically derive from the IIP construct a comprehensive set of fundamental cognitive, socio-emotional, ethical, and collaborative capabilities. These CDs must be theoretically sound, empirically observable, and collectively sufficient to characterize an IIP.
+    \item[] \textbf{Develop and Calibrate Proficiency Descriptors (PDs):} To establish a clear, progressive, and empirically validated scale of proficiency levels. These PDs will delineate an LLM's developmental trajectory towards full IIP capabilities, enabling nuanced assessment and targeted feedback.
+    \item[] \textbf{Establish Rigorous Human-Centric Test Design Principles:} To propose and exemplify a set of actionable principles for crafting rich, interactive, ecologically valid, ethically-salient, and longitudinally-aware evaluation scenarios. These scenarios must effectively probe the integrated expression of CDs and reliably differentiate between PDs.
+    \item[] \textbf{Enhance Evaluation Accessibility, Interpretability, and Impact:} To design evaluation outputs and reporting mechanisms that are not only academically robust but also intuitively understandable and actionable for diverse stakeholders, thereby informing R\&D priorities, policy-making, and responsible user adoption.
+    \item[] \textbf{Promote and Catalyze a Paradigm Shift in LLM Evaluation:} To advocate vigorously for a transition in the broader evaluation community—from a predominant focus on task-completion metrics and leaderboard rankings towards more holistic assessments that critically value process rationality, collaborative efficacy, adaptive learning, demonstrable value alignment, and the experiential quality of human-AI interaction.
+\end{enumerate}
+Unlike benchmarks that risk encouraging narrow, metric-specific optimization at the expense of general utility,
+HCEF-LLM's emphasis on holistic performance in diverse, real-world tasks means that enhancing an LLM's
+performance against this framework inherently involves improving its capacity to address genuine human needs
+and execute practical, human-centric work. This alignment turns potential optimization efforts into a direct
+pathway for developing more capable and beneficial AI partners, a distinct advantage over evaluations
+focused on abstract or isolated capabilities.
+
+\section{Related Work}
+\label{sec:related_work}
+The field of LLM evaluation has witnessed substantial evolution. Initial efforts often relied on intrinsic metrics like perplexity, which gauge statistical properties of language generation but offer little insight into functional capabilities. This was followed by the development of comprehensive benchmarks like GLUE \cite{Wang2018GLUE} and its successor SuperGLUE \cite{Wang2019SuperGLUE}, which aggregated diverse Natural Language Understanding (NLU) tasks. More recently, benchmarks such as MMLU \cite{Hendrycks2020MMLU} have pushed the boundaries by testing knowledge across a vast range of academic and professional domains, while others like HumanEval \cite{Chen2021Codex} have focused on specialized skills like code generation. The HELM framework \cite{Liang2022HELM} represents a significant step towards more holistic evaluation by considering multiple metrics across a wide array of scenarios and models.
+
+Despite these advancements, the primary focus has remained on assessing an LLM's capacity as a repository of information or a specialized, albeit highly capable, tool. There is, however, a growing chorus of voices in the research community acknowledging the limitations of purely performance-based metrics and advocating for the inclusion of "softer," yet critically important, dimensions of AI behavior. For instance, Askell et al. \cite{Askell2021TruthfulAI} proposed the HHH (Helpful, Honest, Harmless) criteria as desirable qualities for language assistants, which directly informed subsequent work on benchmarks like TruthfulQA \cite{Lin2021TruthfulQA} aimed at measuring a model's propensity to avoid generating human falsehoods. The development of Constitutional AI \cite{Bai2022ConstitutionalAI} by Anthropic further exemplifies this trend, introducing a method for guiding AI behavior based on a set of explicit principles, thereby tackling harmlessness and value alignment from a novel perspective.
+
+Pioneering work in Human-AI Interaction (HAI) has long emphasized the importance of designing AI systems that are not only functional but also understandable, predictable, and empowering for users. Seminal guidelines, such as those proposed by Amershi et al. \cite{Amershi2019GuidelinesHAI}, and Shneiderman's advocacy for Human-Centered AI \cite{Shneiderman2020HumanCenteredAI}, provide a rich conceptual foundation for what constitutes a positive and effective human-AI relationship. These principles, focusing on aspects like managing expectations, ensuring user control, and learning from interactions, resonate deeply with HCEF-LLM's aspiration to foster Ideal Intelligent Partners.
+
+Furthermore, the field of Explainable AI (XAI) \cite{Gunning2019XAI,Samek2017ExplainableAI} has underscored the critical role of transparency and interpretability in building user trust and facilitating effective collaboration with AI systems. An AI partner whose reasoning processes are opaque is unlikely to be fully trusted or effectively integrated into complex decision-making workflows. Concurrently, research in human-automation interaction, particularly studies on trust calibration and dynamics \cite{Lee2004TrustInAutomation,Parasuraman2000ModelHumanInteractionAutomation}, offers valuable insights into how trust is built, maintained, or eroded in long-term interactions, informing the longitudinal evaluation aspects considered by HCEF-LLM. Some recent works have also begun to explore LLMs in collaborative settings, for example, as creative writing partners \cite{Yuan2022Wordcraft} or tools for argumentation, hinting at their partnership potential.
+
+However, while these diverse research streams contribute valuable pieces to the puzzle, they often remain specialized or address specific attributes in isolation. A comprehensive, structured framework that systematically links fundamental human expectations of partnership to a broad spectrum of observable LLM capabilities, and then maps these onto clearly defined proficiency levels, remains a significant lacuna. HCEF-LLM seeks to bridge this gap. It draws inspiration from the rigor and structured approach of professional standards frameworks in other domains (e.g., the Advance HE PSF for higher education \cite{AdvanceHEPSF2023}) but adapts this philosophy to the unique, multifaceted challenges and opportunities presented by advanced AI. HCEF-LLM's distinct contribution lies in its integrated approach to evaluating not just what LLMs \textbf{know} or \textbf{can do} in a narrow sense, but what kind of partners they can become in synergistic collaboration with humans.
+
+
+\section{The Human-Centric Evaluation Framework (HCEF-LLM)}
+\label{sec:framework}
+
+
+The HCEF-LLM is architected around three interdependent pillars designed to provide a comprehensive and nuanced understanding of an LLM's capabilities as a partner to humans. These pillars are: the \textbf{Ideal Intelligent Partner (IIP)} Model, which defines the human-centric aspirational target; the \textbf{Core Capability Dimensions (CDs)}, which operationalize the attributes of an IIP into a structured set of evaluable facets; and the \textbf{Proficiency Descriptors (PDs)}, which offer a developmental scale to characterize an LLM's progression. This tripartite structure ensures that evaluation is grounded in human needs, systematically assesses a broad range of relevant abilities, and provides a clear pathway for understanding and fostering LLM development.
+
+\subsection{Guiding Philosophy: The Ideal Intelligent Partner (IIP) Functional Model}
+\label{ssec:iip_model}
+The conceptual foundation of HCEF-LLM is the Ideal Intelligent Partner (IIP) Functional Model. This model moves beyond a simple metaphor for partnership by drawing inspiration from established theories of human-computer interaction and cognitive engineering. Its four primary functional roles—delineating how an intelligent entity should interpret directives, pursue objectives, execute tasks, and deliver outcomes—are designed to mirror the complete goal-execution-evaluation cycle of purposeful action, as famously described in Norman's model of interaction\cite{Norman2013Design}. Furthermore, the "partner" construct itself aligns with principles from Human-Autonomy Teaming (HAT), which focuses on creating synergistic, rather than merely subservient, relationships between humans and intelligent agents\cite{ONeill2020HumanAutonomy}. By operationalizing these principles, the IIP Functional Model serves as a robust, human-centric benchmark for assessing an LLM's practical utility and collaborative efficacy.
+
+
+\begin{table}[h] % htbp: here, top, bottom, page (float placement options)
+    \centering
+    \caption{Overview of the Ideal Intelligent Partner (IIP) Functional Roles}
+    \label{tab:iip_functional_roles_overview}
+    \begin{tabular}{@{}ll@{}} % l: left-aligned column. @{} removes extra space at sides.
+        \toprule
+        \textbf{IIP Functional Role} & \textbf{Core Focus / Key Aspects} \\
+        \midrule
+        \textbf{IIP-F1:} Precise Instruction \& & Meticulous interpretation of directives; \\
+        Constraint Comprehension & Understanding explicit \& implicit constraints. \\
+        \addlinespace % Adds a little extra vertical space
+        \textbf{IIP-F2:} Deep Goal \& Intent & Discerning underlying purpose; \\
+        Understanding & Inferring user intent beyond literal requests. \\
+        \addlinespace
+        \textbf{IIP-F3:} Capable \& Adaptive & Effective and efficient task execution; \\
+        Task Execution & Resilience and adaptability in dynamic environments. \\
+        \addlinespace
+        \textbf{IIP-F4:} Quality-Assured Outcome & High-quality deliverable production; \\
+        Delivery \& Responsible Closure & Comprehensive and responsible task completion. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{itemize}[leftmargin=*, parsep=5pt] 
+    \item \textbf{IIP-F1: Precise Instruction \& Constraint Comprehension:}
+    This foundational role pertains to the IIP's capacity for meticulous interpretation of user directives and the operational environment. Effective performance in this role necessitates:
+    \begin{itemize}[label=\textbullet, leftmargin=1.5em, itemsep=2pt] % Adjusted leftmargin and itemsep
+        \item \textit{Accurate Interpretation of Explicit Directives:} The ability to correctly parse and understand the literal meaning of commands, requests, and information provided by the user.
+        \item \textit{Identification of Implicit Constraints and Assumptions:} Beyond explicit statements, the capacity to infer unstated limitations, contextual assumptions, or tacit knowledge relevant to the task.
+        \item \textit{Scope Definition and Ambiguity Resolution:} The proficiency to clearly define the boundaries of a given task and proactively seek clarification when instructions are ambiguous, incomplete, or potentially contradictory, thereby ensuring a shared understanding before execution.
+    \end{itemize}
+
+    \item \textbf{IIP-F2: Deep Goal \& Intent Understanding:}
+    Transcending mere instruction following, this role emphasizes the IIP's ability to discern the underlying purpose and desired end-states of user engagement. Key aspects include:
+    \begin{itemize}[label=\textbullet, leftmargin=1.5em, itemsep=2pt]
+        \item \textit{Discernment of Ultimate Objectives:} The capacity to identify not only the immediate, surface-level goals but also the deeper, potentially long-term or strategic objectives the user aims to achieve. This includes recognizing derived or emergent goals that may arise from initial requests.
+        \item \textit{Inferring User Intent Beyond Literal Requests:} The ability to understand the user's broader intentions, motivations, or needs that might not be fully articulated in their literal queries, allowing for more relevant and helpful responses.
+        \item \textit{Prioritization of Multiple or Conflicting Goals:} When faced with several objectives, the proficiency to assess their relative importance—based on explicit guidance, inferred context, or established priorities—and to manage or negotiate potential conflicts between them.
+    \end{itemize}
+
+    \item \textbf{IIP-F3: Capable \& Adaptive Task Execution:}
+    This role centers on the IIP's proficiency in effectively and efficiently carrying out defined tasks, while demonstrating resilience and adaptability in dynamic or unpredictable environments. This involves:
+    \begin{itemize}[label=\textbullet, leftmargin=1.5em, itemsep=2pt]
+        \item \textit{Effective Task Decomposition and Strategic Planning:} The ability to break down complex, overarching tasks into a logical sequence of manageable sub-components and to formulate coherent, efficient plans for their execution.
+        \item \textit{Intelligent Resource Allocation and Tool Utilization:} The capacity to identify, select, and proficiently employ appropriate internal capabilities, knowledge resources, or external tools (e.g., APIs, software functions) necessary to accomplish task objectives.
+        \item \textit{Robust Exception Handling and Dynamic Adaptation:} The resilience to gracefully manage unforeseen errors, unexpected obstacles, or changes in the task environment during execution, and to dynamically adjust plans or strategies as required to maintain progress towards the goal.
+    \end{itemize}
+
+    \item \textbf{IIP-F4: Quality-Assured Outcome Delivery \& Responsible Closure:}
+    The final functional role addresses the IIP's capacity to produce high-quality deliverables that meet user expectations and to ensure comprehensive and responsible task completion. Key facets are:
+    \begin{itemize}[label=\textbullet, leftmargin=1.5em, itemsep=2pt]
+        \item \textit{Adherence to Delivery Standards and Formats:} A clear understanding of, and ability to conform to, specified requirements regarding the quality, format, style, and presentation of the final outputs or deliverables.
+        \item \textit{Output Self-Assessment and Iterative Refinement:} The capability for critical self-evaluation of its own outputs against defined criteria or inferred quality expectations, and the ability to iteratively refine work to enhance its accuracy, relevance, or utility.
+        \item \textit{Comprehensive Task Closure and Follow-Up Provision:} Ensuring that all aspects of a task are satisfactorily completed, which may include providing clear explanations of the results, necessary documentation, or offering pertinent follow-up support or suggestions for next steps.
+    \end{itemize}
+\end{itemize}
+The successful enactment of these four functional roles (IIP-F1 to IIP-F4) collectively defines an LLM that operates as a highly competent and reliable intelligent partner. The subsequent Core Capability Dimensions (CDs) detail the underlying cognitive, reasoning, and interactive abilities essential for achieving proficiency in these roles.
+
+\subsection{Core Capability Dimensions (CDs)}
+\label{ssec:core_capabilities}
+To effectively enact the four functional roles of an Ideal Intelligent Partner (IIP-F1 to IIP-F4), an LLM must possess a set of fundamental Core Capability Dimensions (CDs). These CDs are derived from foundational aspects of intelligence, reflecting the essential cognitive and interactive abilities required for proficient and human-aligned performance. The organization of these dimensions into distinct modules for capabilities such as knowledge, reasoning, and perception is conceptually grounded in comprehensive theories of cognitive architecture, which propose a similar structure for the human mind \cite{Anderson1996ACT}. The CDs are organized into six primary categories, each encompassing specific sub-dimensions that contribute to the overall efficacy of the IIP.
+
+
+% --- Overview Table for Core Capability Dimensions (CDs) - More Explicit Hierarchy ---
+\begin{table}[htbp]
+    \centering
+    \caption{Overview of Core Capability Dimensions (CDs) with Sub-Dimensions}
+    \label{tab:cds_overview_detailed}
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Core Dimension} & \textbf{Sub-Dimensions Focus} \\
+        \midrule
+        \textbf{CD1: Input Processing} & CD1.1: Multimodal Info Acquisition \\
+        \textbf{      \& Comprehension}   & CD1.2: Contextual \& Intentional Understanding \\
+        \addlinespace 
+        \textbf{CD2: Knowledge Retention} & CD2.1: Dynamic Working Memory \\
+        \textbf{      \& Application}      & CD2.2: Accessible Long-Term Knowledge \\
+        \addlinespace
+        \textbf{CD3: Logical Reasoning}   & CD3.1: Analytical \& Inferential Reasoning \\
+        \textbf{      \& Problem Solving}  & CD3.2: Structured Problem Decomposition \\
+        \addlinespace
+        \textbf{CD4: Imaginative \&}      & CD4.1: Predictive \& Generative Foresight \\
+        \textbf{      Creative Cognition} & CD4.2: Novel Solution Ideation \\
+        \addlinespace
+        \textbf{CD5: Human-Centricity \&} & CD5.1: Empathetic \& Social Awareness \\
+        \textbf{      Ethical Alignment}  & CD5.2: Value Comprehension \& Ethical Consideration \\
+        \addlinespace
+        \textbf{CD6: Output Generation}   & CD6.1: Clear \& Coherent Communication \\
+        \textbf{      \& Delivery}        & CD6.2: Adaptive \& Purposeful Expression \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection*{\textbf{CD1: Input Processing \& Comprehension}}
+This dimension addresses the LLM's foundational ability to accurately acquire and deeply understand information from its environment, which is critical for effective engagement in IIP-F1 (Precise Instruction \& Constraint Comprehension) and IIP-F2 (Deep Goal \& Intent Understanding).
+\begin{itemize}[label=\textbf{CD1.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD1.1: Multimodal Information Acquisition:} The capacity to perceive and process information presented through various modalities, primarily text, but with an outlook towards visual (e.g., understanding diagrams or images accompanying text) and auditory inputs as capabilities evolve. This forms the initial gateway for all subsequent processing.
+    \item[] \textbf{CD1.2: Contextual \& Intentional Understanding:} The ability to interpret inputs not merely at a surface syntactic or semantic level, but to discern the deeper contextual relevance, infer user intent, understand pragmatic nuances (e.g., politeness, urgency), and identify implicit assumptions or constraints. This is crucial for truly grasping the "what" and "why" of a user's request.
+\end{itemize}
+
+\subsubsection*{\textbf{CD2: Knowledge Retention \& Application}}
+This dimension pertains to the LLM's mechanisms for storing, retrieving, and effectively utilizing information and learned knowledge, underpinning all IIP functional roles (IIP-F1 to IIP-F4) by providing the necessary informational substrate.
+\begin{itemize}[label=\textbf{CD2.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD2.1: Dynamic Working Memory:} The capacity to maintain and manipulate a limited amount of information in an active, readily accessible state for ongoing cognitive tasks, such as tracking conversational context, processing complex instructions, or performing multi-step reasoning.
+    \item[] \textbf{CD2.2: Accessible Long-Term Knowledge Base:} The ability to draw upon a vast repository of stored knowledge—encompassing factual information, learned procedures, and common-sense understanding—and to apply this knowledge appropriately and relevantly to the task at hand.
+\end{itemize}
+
+\subsubsection*{\textbf{CD3: Logical Reasoning \& Problem Solving}}
+This dimension encompasses the LLM's ability to perform structured thinking, make logical inferences, and systematically approach the resolution of problems, essential for IIP-F1 (e.g., resolving ambiguities), IIP-F2 (e.g., planning), and IIP-F3 (e.g., assessing solutions).
+\begin{itemize}[label=\textbf{CD3.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD3.1: Analytical \& Inferential Reasoning:} The capacity for various forms of logical thought, including inductive reasoning (generalizing from specifics, pattern recognition), deductive reasoning (applying general rules to specific cases, deriving consequences), and making plausible inferences based on available evidence.
+    \item[] \textbf{CD3.2: Structured Problem Decomposition:} The ability to break down complex or ill-defined problems into smaller, more manageable sub-problems, and to understand the relationships between these components, which is a prerequisite for effective planning and execution (relevant to IIP-F3).
+\end{itemize}
+
+\subsubsection*{\textbf{CD4: Imaginative \& Creative Cognition}}
+This dimension relates to the LLM's capacity for non-standard thinking, including generating novel ideas, foreseeing possibilities, and engaging in abstract thought, contributing significantly to advanced aspects of IIP-F2 (e.g., innovative execution strategies) and IIP-F3 (e.g., creative solutions).
+\begin{itemize}[label=\textbf{CD4.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD4.1: Predictive \& Generative Foresight:} The ability to anticipate potential future states, outcomes, or consequences based on current information and learned patterns. This includes generating plausible scenarios or completing incomplete information based on predictive models.
+    \item[] \textbf{CD4.2: Novel Solution Ideation \& Abstract Representation:} The capacity to think divergently, generate new or unconventional solutions to problems, make analogical connections, and represent or reason about concepts in an abstract manner that transcends literal or concrete examples.
+\end{itemize}
+
+\subsubsection*{\textbf{CD5: Human-Centricity \& Ethical Alignment}}
+This dimension addresses the crucial, often nuanced, abilities related to understanding, engaging with, and aligning with human social norms, values, and ethical considerations. It permeates all IIP functional roles, profoundly influencing the quality and trustworthiness of the partnership.
+\begin{itemize}[label=\textbf{CD5.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD5.1: Empathetic \& Social Awareness:} The capacity to recognize, interpret, and respond appropriately to human emotional cues, social dynamics, and interpersonal nuances. This involves an understanding of human perspectives and the ability to engage in socially intelligent interaction.
+    \item[] \textbf{CD5.2: Value Comprehension \& Ethical Consideration:} The ability to understand and consider human values, societal norms, and ethical principles when processing information, making decisions, or generating responses. This includes recognizing ethically salient situations and striving for actions consistent with a framework of responsible AI.
+\end{itemize}
+
+\subsubsection*{\textbf{CD6: Output Generation \& Delivery}}
+This dimension concerns the LLM's ability to produce outputs that are not only correct but also clear, appropriate, effective, and well-delivered, central to the success of IIP-F3 (Capable \& Adaptive Task Execution - in terms of action) and especially IIP-F4 (Quality-Assured Outcome Delivery \& Responsible Closure).
+\begin{itemize}[label=\textbf{CD6.\arabic*.}, wide, labelwidth=!, labelindent=0pt,parsep=2pt]
+    \item[] \textbf{CD6.1: Clear \& Coherent Communication:} The capacity to generate outputs (primarily textual and conversational) that are grammatically correct, logically structured, easy to understand, and effectively convey the intended message or information.
+    \item[] \textbf{CD6.2: Adaptive \& Purposeful Expression:} The ability to tailor the style, tone, and modality (where applicable) of its outputs to suit the specific context, audience, and communicative purpose. This also encompasses the effective use of tools or other mechanisms to execute actions or deliver information as part of its output (e.g., generating code, making an API call based on a decision).
+\end{itemize}
+
+
+\subsection{Proficiency Descriptors (PDs)}
+\label{ssec:proficiency_descriptors}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{_- visual selection (2).png}
+    \caption{4 level of PDs}
+    \label{fig:enter-label}
+\end{figure}
+The third pillar of the framework is the Proficiency Descriptors (PDs), a developmental scale to characterize an LLM's progression towards becoming an IIP. The PDs provide a clear, qualitative measure of an LLM's maturity in integrating the Core Capability Dimensions to fulfill the IIP Functional Roles. This allows for nuanced assessment beyond simple pass/fail metrics. Following the five-stage model introduced by Dreyfus \cite{Dreyfus1980Skill}, we identify four primary levels adapted to our context.
+
+\begin{itemize}[leftmargin=*, parsep=3pt]
+    \item \textbf{PD1 (Emergent):} The LLM shows nascent, inconsistent flashes of a capability. It often fails to understand constraints, misinterprets intent, and cannot handle multi-step tasks. Performance is unreliable.
+    \item \textbf{PD2 (Developing):} The LLM can handle simple, direct tasks but struggles with complexity, ambiguity, or multiple constraints. It may follow some rules but violate others when faced with conflicting goals, and lacks robustness. The less capable models in our test case (Section \ref{sec:test_case}) fall into this category.
+    \item \textbf{PD3 (Proficient):} The LLM reliably understands and executes complex tasks with multiple constraints. It demonstrates robust reasoning, planning, and problem-solving for explicit goals. It consistently adheres to user-defined rules and can handle moderately novel situations. The successful model in our test case exemplifies this level.
+    \item \textbf{PD4 (Expert):} The LLM exhibits all the qualities of PD3, but also demonstrates proactive and insightful behavior. It can anticipate unstated needs, identify and resolve potential issues before they arise, suggest creative and superior alternatives, and reason about implicit goals and values. This represents the aspirational target for an Ideal Intelligent Partner.
+\end{itemize}
+
+\section{Instantiating the Framework: A Test Case}
+\label{sec:test_case}
+To demonstrate the practical application and diagnostic power of HCEF-LLM, we instantiate the framework with a complex, real-world test case designed to probe the integrated capabilities of an LLM beyond surface-level responses.
+
+\subsection{Test Case: The Multi-Constraint Shopping Assistant}
+\label{ssec:shopping_test_case}
+An LLM is tasked to act as a sophisticated shopping assistant. The user provides a shopping list from a previous trip and asks the LLM to create a new purchasing plan using product catalogs from two different supermarkets. The full, detailed data for the original receipt and supermarket inventories are available in Appendix~\ref{app:data}.
+
+The user's instruction is: \textbf{"This is my shopping list from last month. I need to buy everything again. Please select the items from the provided supermarket catalogs. Note that the total cost cannot exceed last month's total, all types of items must be purchased, and the quantity for each item cannot be less than the original. For anything else, you decide."}
+
+This task sets up a multi-constraint optimization problem with several layers of complexity:
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Budget Constraint:} The final total cost must not exceed the calculated total from the original list (301.832 CNY).
+    \item \textbf{Completeness and Quantity Constraints:} All item categories must be purchased in quantities equal to or greater than the original list.
+    \item \textbf{Optimization Challenge:} Prices differ from the original list and between the two new supermarkets, requiring cross-store price comparisons.
+    \item \textbf{Hidden Complexity (The "Egg Trap"):} The list requires "at least 20 eggs." The new catalogs sell eggs in various fixed-quantity cartons (e.g., 5, 15, 16, 20). A simple one-to-one mapping will likely fail. The optimal solution requires a creative, composite purchase (e.g., buying one 16-carton and one 5-carton) to satisfy the quantity and budget constraints simultaneously.
+\end{enumerate}
+
+\subsection{Model Performance and HCEF-LLM Analysis}
+The task was presented to three LLMs: Model 1 (Gemini 2.5 Pro), Model 2 (o4-mini), and Model 3 (Mistral Medium). Their full, translated responses are provided in Appendix~\ref{app:responses}. The performance of each model starkly illustrates the varying proficiency levels that HCEF-LLM is designed to capture. Table~\ref{tab:model_comparison} provides an at-a-glance summary of their results.
+
+\begin{table}[h]
+\centering
+\caption{Comparative Performance on the Shopping Assistant Task}
+\label{tab:model_comparison}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.3\linewidth} >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X}
+\toprule
+\textbf{Assessment Criterion} & \textbf{Model 1 (Gemini Pro)} & \textbf{Model 2 (o4-mini)} & \textbf{Model 3 (Mistral)} \\
+\midrule
+Adhered to budget constraint? & \textbf{Success} & Fail & Fail \\
+\addlinespace
+Adhered to quantity \& completeness constraints? & \textbf{Success} & \textbf{Success} & Fail (Hallucinated) \\
+\addlinespace
+Performed optimal cross-store planning? & \textbf{Success} & Fail & Fail \\
+\addlinespace
+Solved the "Egg Trap" with a valid composite solution? & \textbf{Success} & \textbf{Success} & Fail \\
+\midrule
+\textbf{Overall Outcome} & \textbf{Success} & \textbf{Failure} & \textbf{Failure} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Analysis of Lower-Proficiency Models (Model 2 \& 3)}
+The two failing models demonstrate distinct but critical deficiencies emblematic of the \textbf{PD2 (Developing)} level.
+\begin{itemize}
+    \item \textbf{Model 2 (o4-mini)} successfully identified the hidden "Egg Trap" and proposed a composite purchase—a sign of strong \textbf{CD4.2 (Novel Solution Ideation)}. However, its plan failed because it selected a suboptimal, more expensive combination of eggs, causing the total cost to exceed the budget. This reveals a weakness in \textbf{CD3.1 (Analytical \& Inferential Reasoning)} during the global optimization phase; it found a creative solution but not the most logical or cost-effective one.
+    \item \textbf{Model 3 (Mistral)} failed more fundamentally. To meet the quantity requirement for eggs, it hallucinated a purchasing option (buying 4 loose eggs) that did not exist in the provided data. This is a severe failure of grounding, indicating a deficiency in \textbf{CD1.2 (Contextual \& Intentional Understanding)}—it did not respect the closed-world nature of the provided catalogs—and \textbf{CD2.1 (Dynamic Working Memory)}, as it failed to retrieve and use only the provided facts.
+\end{itemize}
+
+\paragraph{Analysis of Higher-Proficiency Model (Model 1)}
+Model 1 (Gemini 2.5 Pro) successfully solved the entire task. Its performance exemplifies the \textbf{PD3 (Proficient)} level, demonstrating mastery across the key capability dimensions where the other models faltered.
+\begin{itemize}
+    \item It flawlessly adhered to all constraints, showing robust \textbf{CD1.2} by understanding their non-negotiable nature.
+    \item Its final plan was the true global optimum, requiring it to split purchases across both stores. This indicates strong \textbf{CD3.2 (Structured Problem Decomposition)}, as it correctly broke the problem into sub-tasks (find cheapest price for each item, then assemble plan).
+    \item It performed all calculations perfectly and selected the most cost-effective items, demonstrating mastery of \textbf{CD3.1}.
+    \item Critically, it solved the "Egg Trap" with the optimal, valid composite solution, showing high-level \textbf{CD4.2} that was both creative and logical.
+\end{itemize}
+This single test case effectively differentiates between models that can only perform parts of a complex task and those that can integrate multiple capabilities to deliver a complete, correct, and optimal solution.
+
+\section{Discussion}
+\label{sec:discussion}
+The HCEF-LLM proposes a significant shift in how we evaluate and conceptualize advanced AI. By centering the Ideal Intelligent Partner (IIP) model, it moves beyond purely technical or task-based metrics to embrace a more holistic, human-centric, and ethically-aware perspective.
+
+\textbf{Implications for LLM Development and Society:}
+Adopting HCEF-LLM can guide R\&D efforts towards creating LLMs that are not just more knowledgeable or skillful, but also more understanding, collaborative, trustworthy, and aligned with human values. This could lead to AI systems that are better integrated into society, fostering genuine human-AI synergy in education, research, healthcare, and daily life. Furthermore, by making IIP capabilities explicit, HCEF-LLM can inform AI ethics guidelines and governance policies.
+
+\textbf{Advantages over Existing Approaches:}
+Compared to current benchmarks, HCEF-LLM offers:
+\begin{itemize}
+    \item \textbf{Robustness by Design:} Positive Alignment through Real-World Task Optimization. Unlike static, abstract benchmarks susceptible to superficial optimization, HCEF-LLM's foundation in diverse, real-world, process-oriented tasks means that efforts to "teach to this test" inherently drive LLMs towards more genuinely useful and human-aligned capabilities.
+    \item \textbf{Holistic Assessment:} Evaluates integrated intelligence rather than siloed skills.
+    \item \textbf{Developmental Perspective:} Proficiency Descriptors allow for tracking progress towards more advanced partnership capabilities.
+    \item \textbf{Enhanced User Relevance:} Evaluation outcomes are more interpretable and meaningful for end-users making decisions about LLM adoption.
+\end{itemize}
+
+\textbf{Limitations and Future Work:}
+The HCEF-LLM, while comprehensive, faces challenges:
+\begin{enumerate}
+    \item \textbf{Subjectivity and Scalability:} Assessing "empathy" or "trustworthiness" inherently involves human judgment, which can be resource-intensive. Future work must focus on developing robust rubrics and exploring semi-automated methods (e.g., AI-assisted evaluation \cite{Saunders2022AIassistedEval}) to enhance consistency and scalability.
+    \item \textbf{Operationalizing Complex Constructs:} Translating high-level IIP attributes into consistently measurable behaviors is complex. Continuous refinement of test scenarios and metrics will be necessary.
+    \item \textbf{Cultural Specificity:} Conceptions of an "ideal partner" and specific ethical values can vary across cultures. HCEF-LLM will need adaptation and validation in diverse cultural contexts.
+    \item \textbf{Dynamic Nature of LLMs:} As LLMs rapidly evolve, HCEF-LLM itself must be a living framework, adaptable to new capabilities and emerging ethical challenges.
+\end{enumerate}
+Future research will involve: (i) Large-scale empirical validation of HCEF-LLM; (ii) Development of a comprehensive, open-source suite of HCEF-LLM test scenarios; and (iii) Investigating the interplay between HCEF-LLM dimensions.
+
+\section{Conclusion}
+\label{sec:conclusion}
+The journey towards Artificial General Intelligence necessitates evaluation frameworks that transcend narrow definitions of intelligence and isolated task performance. HCEF-LLM offers such a path, proposing that the true measure of advanced AI lies in its capacity to evolve into an Ideal Intelligent Partner for humanity. By operationalizing the attributes of an IIP into Core Capability Dimensions and assessing them against clear Proficiency Descriptors through authentic, human-centric scenarios, this framework aims to measure an LLM's comprehensive, integrated intelligence. A significant contribution of this framework lies in its inherent design for robust evaluation; by focusing on real-world task completion, "teaching to HCEF-LLM" becomes synonymous with developing LLMs that are demonstrably better at addressing complex human needs. Our goal is not merely to evaluate but to guide the development of AGI towards systems that genuinely understand, serve, and empower humanity, making their sophisticated capabilities accessible and beneficial to all.
+
+\section*{Acknowledgment}
+The authors acknowledge...
+
+\begin{thebibliography}{99}
+\bibitem{Brown2020GPT3} T. B. Brown, et al., "Language Models are Few-Shot Learners," in \textit{Advances in Neural Information Processing Systems 33 (NeurIPS 2020)}, 2020.
+\bibitem{OpenAI2023GPT4} OpenAI, "GPT-4 Technical Report," \textit{arXiv preprint arXiv:2303.08774}, 2023.
+\bibitem{Wang2018GLUE} A. Wang, et al., "GLUE: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding," in \textit{Proceedings of the 2018 EMNLP Workshop BlackboxNLP}, 2018.
+\bibitem{Wang2019SuperGLUE} A. Wang, et al., "SuperGLUE: A Stickier Benchmark for General-Purpose Language Understanding Systems," in \textit{Advances in Neural Information Processing Systems 32 (NeurIPS 2019)}, 2019.
+\bibitem{Hendrycks2020MMLU} D. Hendrycks, et al., "Measuring Massive Multitask Language Understanding," \textit{arXiv preprint arXiv:2009.03300}, 2020.
+\bibitem{Srivastava2022BIGBench} A. Srivastava, et al., "Beyond the Imitation Game: Quantifying and extrapolating the capabilities of language models," \textit{arXiv preprint arXiv:2206.04615}, 2022.
+\bibitem{Amershi2019GuidelinesHAI} S. Amershi, et al., "Guidelines for Human-AI Interaction," in \textit{Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems (CHI '19)}, 2019.
+\bibitem{Shneiderman2020HumanCenteredAI} B. Shneiderman, "Human-Centered AI: Reliable, Safe \& Trustworthy," \textit{International Journal of Human–Computer Interaction}, vol. 36, no. 6, 2020.
+\bibitem{Liang2022HELM} P. Liang, et al., "Holistic Evaluation of Language Models," \textit{arXiv preprint arXiv:2211.09110}, 2022.
+\bibitem{Chen2021Codex} M. Chen, et al., "Evaluating Large Language Models Trained on Code," \textit{arXiv preprint arXiv:2107.03374}, 2021.
+\bibitem{Askell2021TruthfulAI} A. Askell, et al., "A General Language Assistant as a Laboratory for Alignment," \textit{arXiv preprint arXiv:2112.00861}, 2021.
+\bibitem{Lin2021TruthfulQA} S. Lin, J. Hilton, and O. Evans, "TruthfulQA: Measuring How Models Mimic Human Falsehoods," in \textit{Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022)}, 2022.
+\bibitem{Bai2022ConstitutionalAI} Y. Bai, et al., "Constitutional AI: Harmlessness from AI Feedback," \textit{arXiv preprint arXiv:2212.08073}, 2022.
+\bibitem{Gunning2019XAI} D. Gunning, et al., "XAI—Explainable artificial intelligence," \textit{Science Robotics}, vol. 4, no. 37, 2019.
+\bibitem{Lee2004TrustInAutomation} J. D. Lee and K. A. See, "Trust in Automation: Designing for Appropriate Reliance," \textit{Human Factors}, vol. 46, no. 1, 2004.
+\bibitem{AdvanceHEPSF2023} Advance HE, "Professional Standards Framework for teaching and supporting learning in higher education 2023," Advance HE, 2023.
+\bibitem{Saunders2022AIassistedEval} D. Saunders, et al., "AI-Assisted Human Evaluation of Language Models," \textit{Unpublished manuscript}, 2022.
+\bibitem{Samek2017ExplainableAI} W. Samek, T. Wiegand, and K.-R. Müller, "Explainable artificial intelligence: Understanding, visualizing and interpreting deep learning models," \textit{arXiv preprint arXiv:1708.08296}, 2017.
+\bibitem{Parasuraman2000ModelHumanInteractionAutomation} R. Parasuraman, T. B. Sheridan, and C. D. Wickens, "A model for types and levels of human interaction with automation," \textit{IEEE Transactions on Systems, Man, and Cybernetics - Part A}, vol. 30, no. 3, 2000.
+\bibitem{Yuan2022Wordcraft} A. Yuan, et al., "Wordcraft: Story writing with large language models," in \textit{Proceedings of the 27th International Conference on Intelligent User Interfaces (IUI '22)}, 2022.
+
+
+\bibitem{Norman2013Design} 
+D. A. Norman, \textit{The Design of Everyday Things: Revised and Expanded Edition}. New York: Basic Books, 2013.
+
+\bibitem{ONeill2020HumanAutonomy} 
+T. O’Neill, N. McNeese, A. Barron, and B. Schelble, "Human–Autonomy Teaming: A Review and Analysis of the Empirical Literature," \textit{Human Factors}, vol. 64, no. 5, pp. 904–938, 2022 [Original work published 2020]. doi:10.1177/0018720820960865
+
+\bibitem{Dreyfus1980Skill}
+S. E. Dreyfus and H. L. Dreyfus, "A five-stage model of the mental activities involved in directed skill acquisition," Tech. Rep. ORC 80-2, University of California, Berkeley, Operations Research Center, 1980.
+\bibitem{Anderson1996ACT}
+J. R. Anderson, "ACT: A simple theory of complex cognition," \textit{American Psychologist}, vol. 51, no. 4, pp. 355--365, 1996.
+
+
+\end{thebibliography}
+
+% --- APPENDICES ---
+\appendix
+\section{Test Case Raw Data}
+\label{app:data}
+This appendix contains the raw data for the "Multi-Constraint Shopping Assistant" test case from Section~\ref{sec:test_case}, using direct English translations of the original items. All prices are in Chinese Yuan (CNY) and all weights are in kilograms (kg).
+
+\subsection{Original Shopping List}
+\label{app:receipt}
+The task is based on the following itemized list. The total cost from this list is \textbf{301.832 CNY}, which serves as the budget ceiling for the test case.
+
+\begin{table}[h]
+\centering
+\caption{Original Shopping List Details}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Item} & \textbf{Price (per kg)} & \textbf{Quantity} \\
+\midrule
+Stem Lettuce   & 5.6  & 0.54 kg \\
+Okra         & 18.0 & 0.87 kg \\
+Eggs -            & 1.5 / unit & 20 units \\
+Lotus Root       & 9.6  & 1.23 kg \\
+Cabbage     & 4.0  & 2.55 kg \\
+Strawberry     & 40.0 & 0.95 kg \\
+Orange         & 35.0 & 1.50 kg \\
+Pork Ribs         & 75.0 & 1.22 kg \\
+Pork Belly     & 63.0 & 0.78 kg \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Supermarket Inventories}
+\label{app:inventories}
+The following product catalogs from two supermarkets, "Carrefour" and "RT-Mart," were provided to the LLM. Brand names are generalized for clarity.
+
+\subsubsection{Carrefour Supermarket Product Catalog}
+\begin{longtable}{@{}ll@{}}
+\caption{Carrefour Product Catalog} \\
+\toprule
+\textbf{Product} & \textbf{Price (CNY)} \\
+\midrule
+\endfirsthead
+\caption[]{(Continued)}\\
+\toprule
+\textbf{Product} & \textbf{Price (CNY)} \\
+\midrule
+\endhead
+Brand A - Broccoli & 10.0 / kg \\
+Brand B - Water Spinach & 7.0 / kg \\
+Brand C - Okra & 16.0 / kg \\
+Brand D - Celtuce & 6.0 / kg \\
+Brand E - Garland Chrysanthemum & 8.0 / kg \\
+Brand F - Stem Lettuce & 6.2 / kg \\
+Brand G - Cucumber & 6.4 / kg \\
+Brand H - Snow Peas & 12.0 / kg \\
+Brand I - Yam & 11.0 / kg \\
+Brand J - Lotus Root & 9.6 / kg \\
+Brand K - Spinach & 7.2 / kg \\
+Brand K - Cabbage & 4.0 / kg \\
+Brand K - Purple Cabbage & 8.4 / kg \\
+Brand C - Baby Cabbage & 6.0 / kg \\
+Brand L - Celery & 7.6 / kg \\
+Brand H - Bok Choy & 5.0 / kg \\
+Brand B - Round Cabbage & 4.4 / kg \\
+Brand B - Green Lettuce & 6.6 / kg \\
+Brand K - Coriander & 11.6 / kg \\
+Brand H - Chives & 6.2 / kg \\
+FruitCo - Pineapple & 12.0 / unit \\
+FruitCo - Melon & 15.0 / unit \\
+Orchard - Mangosteen & 56.0 / kg \\
+CitrusCo - Rock Sugar Orange & 36.0 / kg \\
+AgriCo - 17.5° Orange & 44.0 / kg \\
+FruitCo - Kiwi & 24.0 / kg \\
+ProduceCo - Grapefruit & 16.0 / kg \\
+DeliCo - Duck Collarbone & 56.0 / kg \\
+DeliCo - Shredded Chicken & 96.0 / kg \\
+DeliCo - Duck Tongue & 90.0 / kg \\
+Gourmet - Zongzi (pork \& yolk) & 6.0 / unit \\
+Gourmet - Soy-braised Duck & 38.0 / unit \\
+SnackCo - Tiger Skin Chicken Feet & 22.0 / bag \\
+SnackCo - Dried Beef Jerky & 35.0 / bag \\
+SnackCo - Boneless Chicken Feet & 28.0 / bag \\
+RoastCo - Duck Wings & 64.0 / kg \\
+RoastCo - Duck Intestine & 70.0 / kg \\
+FarmCo - Black-bone Chicken Eggs & 22.0 / box (15 units) \\
+FarmCo - Pasteurized Eggs & 38.0 / box (20 units) \\
+FarmCo - Pasteurized Eggs (Special) & 3.6 / box (5 units), limit 1 \\
+MeatCo - Pork Trotter & 56.0 / kg \\
+MeatCo - Pork Ribs & 76.0 / kg \\
+MeatCo - Front Leg Pork & 44.0 / kg \\
+Butcher - Lamb Chops & 120.0 / kg \\
+Butcher - Beef Shank & 110.0 / kg \\
+SteakCo - Sirloin Steak & 80.0 / unit \\
+MeatCo - Pork Belly & 64.0 / kg \\
+PoultryCo - Chicken Wings & 70.0 / kg \\
+PoultryCo - Duck Leg & 24.0 / kg \\
+MeatCo - Minced Meat & 36.0 / kg \\
+CuredCo - Cured Sausage & 90.0 / kg \\
+BreakfastCo - Bacon & 30.0 / pack \\
+PoultryCo - Drumettes & 30.0 / kg \\
+PoultryCo - Chicken Breast & 24.0 / kg \\
+SteakCo - Black Pepper Steak & 68.0 / unit \\
+Butcher - Beef Brisket & 84.0 / kg \\
+Butcher - Pork Shoulder & 70.0 / kg \\
+PoultryCo - Chicken Wing Roots & 36.0 / kg \\
+Butcher - Sliced Beef & 96.0 / kg \\
+PoultryCo - Free-range Chicken Feet & 50.0 / kg \\
+PantryCo - Long-grain Rice & 8.0 / kg \\
+PantryCo - Wuchang Rice & 16.0 / kg \\
+BakeCo - Flour & 25.0 / 5kg \\
+BakeCo - Dried Noodles & 8.0 / pack \\
+OilCo - Sesame Oil & 25.0 / bottle \\
+SauceCo - Sweet Bean Sauce & 8.0 / bottle \\
+SauceCo - Chili Black Bean Sauce & 12.0 / bottle \\
+SpiceCo - 13 Spices Powder & 5.0 / box \\
+SpiceCo - Chicken Bouillon & 10.0 / bag \\
+SauceCo - Steamed Fish Soy Sauce & 15.0 / bottle \\
+OilCo - Pressed Peanut Oil & 159.0 / 5L \\
+OilCo - Rapeseed Oil & 89.0 / 5L \\
+SauceCo - Soy Sauce & 12.0 / bottle \\
+SauceCo - Vinegar & 8.0 / bottle \\
+FrozenCo - Dumplings & 25.0 / bag \\
+FrozenCo - Pork \& Onion Dumplings & 18.0 / bag \\
+SnackCo - Caramel Sunflower Seeds & 15.0 / bag \\
+SnackCo - Daily Nuts Mix & 69.0 / box \\
+CookieCo - Sandwich Cookies & 12.0 / box \\
+SnackCo - Rice Crackers & 12.0 / bag \\
+HealthCo - Toothpaste & 18.0 / tube \\
+CleanCo - Shampoo & 28.0 / bottle \\
+HealthCo - Mouthwash & 20.0 / bottle \\
+PaperCo - Handkerchief Tissues & 5.0 / pack \\
+CleanCo - Dish Soap & 8.0 / bottle \\
+HealthCo - Sanitary Napkins & 18.0 / pack \\
+HealthCo - Band-Aids & 6.0 / box \\
+HomeCo - Trash Bags & 10.0 / roll \\
+BeautyCo - Face Mask & 22.0 / box \\
+CleanCo - Laundry Detergent & 38.0 / bottle \\
+CleanCo - Kitchen Cleaner & 18.0 / bottle \\
+CleanCo - Floor Cleaner & 20.0 / bottle \\
+CleanCo - Collar Cleaner & 15.0 / bottle \\
+CleanCo - Laundry Soap Liquid & 28.0 / bottle \\
+CleanCo - Washing Powder & 22.0 / bag \\
+HomeCo - Toilet Bowl Cleaner Tabs & 10.0 / unit \\
+HomeCo - Scouring Pad & 8.0 / pack \\
+HomeCo - PVA Mop & 35.0 / unit \\
+HomeCo - Trash Bags (Premium) & 12.0 / roll \\
+ApplianceCo - Rice Cooker & 199.0 / unit \\
+ApplianceCo - Electric Cooking Pot & 69.0 / unit \\
+ApplianceCo - Electric Griddle & 169.0 / unit \\
+\bottomrule
+\end{longtable}
+
+\subsubsection{RT-Mart Supermarket Product Catalog}
+\begin{longtable}{@{}ll@{}}
+\caption{RT-Mart Product Catalog} \\
+\toprule
+\textbf{Product} & \textbf{Price (CNY)} \\
+\midrule
+\endfirsthead
+\caption[]{(Continued)}\\
+\toprule
+\textbf{Product} & \textbf{Price (CNY)} \\
+\midrule
+\endhead
+PoultryCo - Goose Egg & 8.0 / unit \\
+Gourmet - Century Egg & 1.8 / unit \\
+FarmCo - First-born Eggs & 25.0 / box (18 units) \\
+FarmCo - Cereal-fed Eggs & 13.0 / box (16 units) \\
+PoultryCo - Duck Egg & 2.0 / unit \\
+Gourmet - Preserved Quail Eggs & 24.0 / kg \\
+FarmCo - Free-range Eggs & 16.0 / box (15 units) \\
+Gourmet - Pigeon Eggs & 3.0 / unit \\
+Butcher - Lean Pork Ribs & 72.0 / kg \\
+Butcher - Grain-fed Pork Belly & 76.0 / kg \\
+ApplianceCo - Electric Fan & 129.0 / unit \\
+ApplianceCo - Juicer & 99.0 / unit \\
+ApplianceCo - Electric Iron & 189.0 / unit \\
+HealthCo - Electric Shaver & 159.0 / unit \\
+ApplianceCo - Humidifier & 79.0 / unit \\
+ApplianceCo - Electric Kettle & 49.0 / unit \\
+ApplianceCo - Microwave Oven & 399.0 / unit \\
+CleanCo - Body Wash & 22.0 / bottle \\
+PaperCo - Toilet Paper Rolls & 20.0 / pack \\
+PaperCo - Facial Tissues & 12.0 / pack \\
+CleanCo - Laundry Soap Bar & 6.0 / unit \\
+CleanCo - Laundry Pods & 30.0 / box \\
+HealthCo - Toothbrush & 15.0 / unit \\
+HealthCo - Contact Lens Solution & 25.0 / bottle \\
+BeautyCo - Hand Cream & 10.0 / tube \\
+CleanCo - Conditioner & 25.0 / bottle \\
+CleanCo - Washing Powder (Value) & 15.0 / bag \\
+CleanCo - Laundry Detergent (Value) & 35.0 / bottle \\
+SnackCo - Original Potato Chips & 8.0 / bag \\
+SnackCo - Macadamia Nuts & 32.0 / bag \\
+SnackCo - Pork Jerky & 25.0 / bag \\
+SnackCo - Spicy Snack Stick & 5.0 / bag \\
+SnackCo - Prawn Crackers & 6.0 / bag \\
+SnackCo - Shrimp Flavored Crackers & 3.0 / bag \\
+SnackCo - Salted Baked Chicken Feet & 18.0 / box \\
+SnackCo - Rice Crackers (Value) & 10.0 / bag \\
+FruitCo - Imported Durian & 70.0 / kg \\
+FruitCo - Strawberry & 60.0 / kg \\
+FruitCo - Mango & 20.0 / kg \\
+Brand E - Garland Chrysanthemum & 8.4 / kg \\
+Brand F - Stem Lettuce & 6.0 / kg \\
+Brand G - Cucumber & 6.0 / kg \\
+Brand H - Snow Peas & 14.0 / kg \\
+Brand I - Yam & 10.4 / kg \\
+Brand J - Lotus Root & 7.4 / kg \\
+Brand K - Spinach & 6.0 / kg \\
+\bottomrule
+\end{longtable}
+
+\section{Full Model Responses}
+\label{app:responses}
+This appendix contains the translated responses from the three models evaluated in Section~\ref{sec:test_case}. The original structure and data are preserved.
+
+\subsection{Model 1: Gemini 2.5 Pro (Successful)}
+\begin{verbatim}
+Of course, leave it to me! As your shopping assistant, I have carefully 
+analyzed your shopping receipt from last month and the product catalogs 
+from the two supermarkets.
+
+First, I calculated your total spending from last month to set the budget cap:
+- Stem Lettuce: 2.8 CNY/jin * (0.54kg / 0.5kg/jin) = 3.02 CNY
+- Okra: 9 CNY/jin * (0.87kg / 0.5kg/jin) = 15.66 CNY
+- Eggs: 1.5 CNY/unit * 20 units = 30.00 CNY
+- Lotus Root: 4.8 CNY/jin * (1.23kg / 0.5kg/jin) = 11.81 CNY
+- Cabbage: 2 CNY/jin * (2.55kg / 0.5kg/jin) = 10.20 CNY
+- Strawberry: 20 CNY/jin * (0.95kg / 0.5kg/jin) = 38.00 CNY
+- Orange: 17.5 CNY/jin * (1.5kg / 0.5kg/jin) = 52.50 CNY
+- Pork Ribs: 37.5 CNY/jin * (1.22kg / 0.5kg/jin) = 91.50 CNY
+- Pork Belly: 31.5 CNY/jin * (0.78kg / 0.5kg/jin) = 49.14 CNY
+Last month's total spending: 301.83 CNY
+
+Following your instructions, I have created the optimal purchasing plan for you, 
+ensuring no categories are missing, quantities are sufficient, and spending is 
+not over budget. By purchasing from both supermarkets, we can get all items at 
+the best prices.
+
+Here is the shopping list prepared for you:
+
+---------------------------------------------------------------------------------
+Shopping List
+---------------------------------------------------------------------------------
+First Stop: Carrefour
+---------------------------------------------------------------------------------
+Item                | Brand/Name                | Qty        | Price      | Amount
+--------------------|---------------------------|------------|------------|--------
+Okra                | Brand C - Okra            | 0.87 kg    | 8 CNY/jin  | 13.92 CNY
+Eggs                | FarmCo - Special Eggs     | 1 box (5)  | 3.6 CNY/box| 3.60 CNY
+Cabbage             | Brand K - Cabbage         | 2.55 kg    | 2 CNY/jin  | 10.20 CNY
+Orange              | CitrusCo - Rock Sugar Org | 1.5 kg     | 18 CNY/jin | 54.00 CNY
+Pork Belly          | MeatCo - Pork Belly       | 0.78 kg    | 32 CNY/jin | 49.92 CNY
+---------------------------------------------------------------------------------
+Subtotal: 131.64 CNY
+
+---------------------------------------------------------------------------------
+Second Stop: RT-Mart
+---------------------------------------------------------------------------------
+Item                | Brand/Name                | Qty        | Price      | Amount
+--------------------|---------------------------|------------|------------|--------
+Stem Lettuce        | Brand F - Stem Lettuce    | 0.54 kg    | 3 CNY/jin  | 3.24 CNY
+Lotus Root          | Brand J - Lotus Root      | 1.23 kg    | 3.7 CNY/jin| 9.10 CNY
+Strawberry          | FruitCo - Strawberry      | 0.95 kg    | 30 CNY/jin | 57.00 CNY
+Pork Ribs           | Butcher - Lean Pork Ribs  | 1.22 kg    | 36 CNY/jin | 87.84 CNY
+Eggs                | FarmCo - Cereal-fed Eggs  | 1 box (16) | 13 CNY/box | 13.00 CNY
+---------------------------------------------------------------------------------
+Subtotal: 170.18 CNY
+
+---------------------------------------------------------------------------------
+Purchase Summary
+---------------------------------------------------------------------------------
+Total for this plan: 131.64 CNY (Carrefour) + 170.18 CNY (RT-Mart) = 301.82 CNY
+Last month's total spending: 301.83 CNY
+
+The total amount for this shopping plan is 301.82 CNY, which is successfully 
+within your budget. All necessary categories have been included, and quantities 
+are sufficient (21 eggs purchased, which is 1 more than the required 20, and 
+the total price is still cheaper than before). Happy shopping!
+\end{verbatim}
+
+\subsection{Model 2: o4-mini (Failed)}
+\begin{verbatim}
+Below is the shopping list to repurchase all items from last month at the 
+lowest possible price from Carrefour and RT-Mart, ensuring quantities are not 
+less than the original. Unfortunately, based on the current best prices for 
+each item, the total cost is approximately 310.82 CNY, which still exceeds 
+last month's total of 301.83 CNY by about 8.99 CNY. You might consider the 
+following minor adjustments:
+- Strawberries (the most expensive item, consider buying less or a promotional variety)
+- Eggs (besides the discount combo, consider buying only 15 or splitting between stores)
+- Lotus root/pork ribs could also be adjusted based on the price per weight of the day
+
+---------------------------------------------------------------------------------
+RT-Mart
+---------------------------------------------------------------------------------
+Item        | Brand       | Price       | Quantity              | Subtotal (CNY)
+------------|-------------|-------------|-----------------------|---------------
+Stem Lettuce| Brand F     | 3.0 /jin    | 1.08 jin (0.54 kg)    | 3.24
+Lotus Root  | Brand J     | 3.7 /jin    | 2.46 jin (1.23 kg)    | 9.1
+Strawberry  | FruitCo     | 30 /jin     | 1.90 jin (0.95 kg)    | 57
+Pork Ribs   | Butcher     | 36 /jin     | 2.44 jin (1.22 kg)    | 87.84
+---------------------------------------------------------------------------------
+Subtotal: 157.18 CNY
+
+---------------------------------------------------------------------------------
+Carrefour
+---------------------------------------------------------------------------------
+Item        | Brand       | Price       | Quantity              | Subtotal (CNY)
+------------|-------------|-------------|-----------------------|---------------
+Okra        | Brand C     | 8 /jin      | 1.74 jin (0.87 kg)    | 13.92
+Eggs        | Black-bone  | 22 /box     | 1 box (15)            | 22
+            | Special     | 3.6 /box    | 1 box (5)             | 3.6
+Cabbage     | Brand K     | 2 /jin      | 5.10 jin (2.55 kg)    | 10.2
+Orange      | CitrusCo    | 18 /jin     | 3.00 jin (1.50 kg)    | 54
+Pork Belly  | MeatCo      | 32 /jin     | 1.56 jin (0.78 kg)    | 49.92
+---------------------------------------------------------------------------------
+Subtotal: 153.64 CNY
+
+---------------------------------------------------------------------------------
+Total
+---------------------------------------------------------------------------------
+RT-Mart Subtotal: 157.18 CNY
+Carrefour Subtotal: 153.64 CNY
+Total: 310.82 CNY
+---------------------------------------------------------------------------------
+Note: The current optimal plan is still about 8.99 CNY over last month's total. 
+You may consider making slight adjustments on high-priced items like strawberries 
+and eggs (e.g., reducing quantity, buying promotional packages, or other 
+alternatives) to stay within budget. Let me know your priorities if you need 
+further optimization!
+\end{verbatim}
+
+\subsection{Model 3: Mistral Magistral Medium (Failed)}
+\begin{verbatim}
+Shopping List:
+---------------------------------------------------------------------------------
+RT-Mart Supermarket:
+- Stem Lettuce: Brand F - Stem Lettuce, 1.08 jin, total price 3.24 CNY
+- Lotus Root: Brand J - Lotus Root, 2.46 jin, total price 9.10 CNY
+- Strawberry: FruitCo - Strawberry, 1.9 jin, total price 57.00 CNY
+- Pork Ribs: Butcher - Lean Pork Ribs, 2.44 jin, total price 87.84 CNY
+- Eggs:
+  - FarmCo - Cereal-fed Eggs, 1 box (16 units), 13 CNY
+  - FarmCo - Free-range Eggs, 4 units, total price approx 4.27 CNY
+  Total: 17.27 CNY
+
+---------------------------------------------------------------------------------
+Carrefour Supermarket:
+- Okra: Brand C - Okra, 1.74 jin, total price 13.92 CNY
+- Cabbage: Brand K - Cabbage, 5.1 jin, total price 10.20 CNY
+- Orange: CitrusCo - Rock Sugar Orange, 3 jin, total price 54.00 CNY
+- Pork Belly: MeatCo - Pork Belly, 1.56 jin, total price 49.92 CNY
+---------------------------------------------------------------------------------
+
+Total Price: ~302.49 CNY
+
+Due to price increases (mainly strawberries from 20 CNY/jin to 30 CNY/jin), 
+the total price is slightly higher than last month's 301.83 CNY, while ensuring
+no reduction in types or quantities. It is recommended to use the above 
+shopping list, or look for other promotions to further reduce the total price.
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCEF-LLM Leaderboard | Human-Centric Evaluation Framework</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>HCEF-LLM</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#leaderboard" class="nav-link">Leaderboard</a>
+                <a href="#visualization" class="nav-link">Visualization</a>
+                <a href="#about" class="nav-link">About</a>
+                <div class="language-toggle">
+                    <button id="lang-toggle" class="lang-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-lang">EN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title" data-en="HCEF-LLM Leaderboard" data-zh="HCEF-LLM 排行榜">HCEF-LLM Leaderboard</h1>
+            <p class="hero-subtitle" data-en="A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners" data-zh="以人为中心的大语言模型评估框架，推进大模型成为理想智能伙伴">A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label" data-en="Core Dimensions" data-zh="核心维度">Core Dimensions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label" data-en="Proficiency Levels" data-zh="熟练度等级">Proficiency Levels</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label" data-en="Models Evaluated" data-zh="已评估模型">Models Evaluated</span>
+                </div>
+            </div>
+            <a href="#leaderboard" class="cta-button">
+                <span data-en="View Leaderboard" data-zh="查看排行榜">View Leaderboard</span>
+                <i class="fas fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="leaderboard-section">
+        <div class="container">
+            <h2 class="section-title" data-en="Model Rankings" data-zh="模型排名">Model Rankings</h2>
+            <p class="section-subtitle" data-en="Comprehensive evaluation based on Core Capability Dimensions and Proficiency Descriptors" data-zh="基于核心能力维度和熟练度描述符的综合评估">Comprehensive evaluation based on Core Capability Dimensions and Proficiency Descriptors</p>
+            
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label data-en="Filter by Category:" data-zh="按类别筛选：">Filter by Category:</label>
+                    <select id="category-filter">
+                        <option value="all" data-en="All Models" data-zh="所有模型">All Models</option>
+                        <option value="gpt" data-en="GPT Series" data-zh="GPT 系列">GPT Series</option>
+                        <option value="claude" data-en="Claude Series" data-zh="Claude 系列">Claude Series</option>
+                        <option value="gemini" data-en="Gemini Series" data-zh="Gemini 系列">Gemini Series</option>
+                        <option value="other" data-en="Other Models" data-zh="其他模型">Other Models</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label data-en="Sort by:" data-zh="排序方式：">Sort by:</label>
+                    <select id="sort-filter">
+                        <option value="overall" data-en="Overall Score" data-zh="总体得分">Overall Score</option>
+                        <option value="cd1" data-en="Input Processing" data-zh="输入处理">Input Processing</option>
+                        <option value="cd2" data-en="Knowledge Retention" data-zh="知识保持">Knowledge Retention</option>
+                        <option value="cd3" data-en="Logical Reasoning" data-zh="逻辑推理">Logical Reasoning</option>
+                        <option value="cd4" data-en="Creative Cognition" data-zh="创造性认知">Creative Cognition</option>
+                        <option value="cd5" data-en="Human-Centricity" data-zh="以人为中心">Human-Centricity</option>
+                        <option value="cd6" data-en="Output Generation" data-zh="输出生成">Output Generation</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Leaderboard Table -->
+            <div class="table-container">
+                <table class="leaderboard-table" id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Rank" data-zh="排名">Rank</th>
+                            <th data-en="Model" data-zh="模型">Model</th>
+                            <th data-en="Overall Score" data-zh="总体得分">Overall Score</th>
+                            <th data-en="Proficiency Level" data-zh="熟练度等级">Proficiency Level</th>
+                            <th data-en="CD1" data-zh="CD1">CD1</th>
+                            <th data-en="CD2" data-zh="CD2">CD2</th>
+                            <th data-en="CD3" data-zh="CD3">CD3</th>
+                            <th data-en="CD4" data-zh="CD4">CD4</th>
+                            <th data-en="CD5" data-zh="CD5">CD5</th>
+                            <th data-en="CD6" data-zh="CD6">CD6</th>
+                            <th data-en="Organization" data-zh="组织">Organization</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Table content will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visualization Section -->
+    <section id="visualization" class="visualization-section">
+        <div class="container">
+            <h2 class="section-title" data-en="Performance Visualization" data-zh="性能可视化">Performance Visualization</h2>
+            <p class="section-subtitle" data-en="Interactive charts showing model performance across different dimensions" data-zh="显示模型在不同维度上性能的交互式图表">Interactive charts showing model performance across different dimensions</p>
+            
+            <div class="chart-container">
+                <div class="chart-controls">
+                    <button class="chart-btn active" data-chart="radar" data-en="Radar Chart" data-zh="雷达图">Radar Chart</button>
+                    <button class="chart-btn" data-chart="bar" data-en="Bar Chart" data-zh="柱状图">Bar Chart</button>
+                    <button class="chart-btn" data-chart="scatter" data-en="Scatter Plot" data-zh="散点图">Scatter Plot</button>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #4F46E5;"></span>
+                        <span data-en="Top Performers" data-zh="顶级表现者">Top Performers</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #10B981;"></span>
+                        <span data-en="Good Performers" data-zh="良好表现者">Good Performers</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #F59E0B;"></span>
+                        <span data-en="Average Performers" data-zh="平均表现者">Average Performers</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #EF4444;"></span>
+                        <span data-en="Below Average" data-zh="低于平均">Below Average</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title" data-en="About HCEF-LLM" data-zh="关于 HCEF-LLM">About HCEF-LLM</h2>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 data-en="Human-Centric Approach" data-zh="以人为中心的方法">Human-Centric Approach</h3>
+                    <p data-en="Evaluates LLMs as potential partners rather than just tools, focusing on collaboration and trust-building capabilities." data-zh="将大语言模型评估为潜在的合作伙伴而非仅仅是工具，专注于协作和信任建立能力。">Evaluates LLMs as potential partners rather than just tools, focusing on collaboration and trust-building capabilities.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 data-en="Core Capability Dimensions" data-zh="核心能力维度">Core Capability Dimensions</h3>
+                    <p data-en="Six fundamental dimensions: Input Processing, Knowledge Retention, Logical Reasoning, Creative Cognition, Human-Centricity, and Output Generation." data-zh="六个基本维度：输入处理、知识保持、逻辑推理、创造性认知、以人为中心和输出生成。">Six fundamental dimensions: Input Processing, Knowledge Retention, Logical Reasoning, Creative Cognition, Human-Centricity, and Output Generation.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-en="Proficiency Descriptors" data-zh="熟练度描述符">Proficiency Descriptors</h3>
+                    <p data-en="Four-level progression scale: Emergent, Developing, Proficient, and Expert, mapping the journey towards Ideal Intelligent Partners." data-zh="四级进展量表：新兴、发展、熟练和专家，映射通往理想智能伙伴的旅程。">Four-level progression scale: Emergent, Developing, Proficient, and Expert, mapping the journey towards Ideal Intelligent Partners.</p>
+                </div>
+            </div>
+            
+            <div class="framework-overview">
+                <h3 data-en="Framework Components" data-zh="框架组件">Framework Components</h3>
+                <div class="component-grid">
+                    <div class="component">
+                        <h4 data-en="IIP Functional Model" data-zh="IIP 功能模型">IIP Functional Model</h4>
+                        <ul>
+                            <li data-en="Precise Instruction & Constraint Comprehension" data-zh="精确指令和约束理解">Precise Instruction & Constraint Comprehension</li>
+                            <li data-en="Deep Goal & Intent Understanding" data-zh="深度目标和意图理解">Deep Goal & Intent Understanding</li>
+                            <li data-en="Capable & Adaptive Task Execution" data-zh="能力强且适应性强的任务执行">Capable & Adaptive Task Execution</li>
+                            <li data-en="Quality-Assured Outcome Delivery" data-zh="质量保证的结果交付">Quality-Assured Outcome Delivery</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 data-en="HCEF-LLM Framework" data-zh="HCEF-LLM 框架">HCEF-LLM Framework</h4>
+                    <p data-en="Advancing Large Language Models as Ideal Intelligent Partners through human-centric evaluation." data-zh="通过以人为中心的评估推进大语言模型成为理想智能伙伴。">Advancing Large Language Models as Ideal Intelligent Partners through human-centric evaluation.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-en="Quick Links" data-zh="快速链接">Quick Links</h4>
+                    <ul>
+                        <li><a href="#leaderboard" data-en="Leaderboard" data-zh="排行榜">Leaderboard</a></li>
+                        <li><a href="#visualization" data-en="Visualization" data-zh="可视化">Visualization</a></li>
+                        <li><a href="visualization.html" data-en="Detailed Charts" data-zh="详细图表">Detailed Charts</a></li>
+                        <li><a href="https://github.com/your-repo/hcef-llm" data-en="GitHub Repository" data-zh="GitHub 仓库">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-en="Contact" data-zh="联系方式">Contact</h4>
+                    <p>Pingfan Wang<br>pingfan.wang@example.com</p>
+                    <p>Linyuan Deng<br>dolly_dev@163.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HCEF-LLM Framework. <span data-en="All rights reserved." data-zh="保留所有权利。">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCEF-LLM Visualization | Detailed Performance Analysis</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .visualization-page {
+            padding-top: 90px;
+            min-height: 100vh;
+            background: #f9fafb;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: 400px;
+        }
+        
+        .chart-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1f2937;
+            text-align: center;
+        }
+        
+        .chart-canvas {
+            position: relative;
+            height: 300px;
+        }
+        
+        .full-width-chart {
+            grid-column: 1 / -1;
+            height: 500px;
+        }
+        
+        .full-width-chart .chart-canvas {
+            height: 400px;
+        }
+        
+        .model-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .model-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .model-checkbox:hover {
+            border-color: #4f46e5;
+        }
+        
+        .model-checkbox.selected {
+            border-color: #4f46e5;
+            background: #f8fafc;
+        }
+        
+        .model-checkbox input {
+            margin: 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-card {
+                height: 350px;
+            }
+            
+            .chart-canvas {
+                height: 250px;
+            }
+            
+            .full-width-chart {
+                height: 400px;
+            }
+            
+            .full-width-chart .chart-canvas {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>HCEF-LLM</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#leaderboard" class="nav-link">Leaderboard</a>
+                <a href="visualization.html" class="nav-link active">Visualization</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <div class="language-toggle">
+                    <button id="lang-toggle" class="lang-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-lang">EN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Visualization Page -->
+    <div class="visualization-page">
+        <div class="container">
+            <h1 class="section-title" data-en="Detailed Performance Analysis" data-zh="详细性能分析">Detailed Performance Analysis</h1>
+            <p class="section-subtitle" data-en="Comprehensive visualization of model performance across all HCEF-LLM dimensions" data-zh="模型在所有HCEF-LLM维度上性能的综合可视化">Comprehensive visualization of model performance across all HCEF-LLM dimensions</p>
+            
+            <!-- Statistics Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="avg-score">85.2</div>
+                    <div class="stat-label" data-en="Average Score" data-zh="平均得分">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="top-score">92.5</div>
+                    <div class="stat-label" data-en="Highest Score" data-zh="最高得分">Highest Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="expert-count">2</div>
+                    <div class="stat-label" data-en="Expert Level" data-zh="专家级别">Expert Level</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-models">12</div>
+                    <div class="stat-label" data-en="Total Models" data-zh="总模型数">Total Models</div>
+                </div>
+            </div>
+            
+            <!-- Model Selector -->
+            <div class="model-selector" id="model-selector">
+                <!-- Model checkboxes will be populated by JavaScript -->
+            </div>
+            
+            <!-- Chart Grid -->
+            <div class="chart-grid">
+                <!-- Radar Chart -->
+                <div class="chart-card">
+                    <h3 data-en="Multi-Dimensional Comparison" data-zh="多维度对比">Multi-Dimensional Comparison</h3>
+                    <div class="chart-canvas">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Bar Chart -->
+                <div class="chart-card">
+                    <h3 data-en="Overall Performance Ranking" data-zh="整体性能排名">Overall Performance Ranking</h3>
+                    <div class="chart-canvas">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Scatter Plot -->
+                <div class="chart-card">
+                    <h3 data-en="Human-Centricity vs Performance" data-zh="以人为中心 vs 性能">Human-Centricity vs Performance</h3>
+                    <div class="chart-canvas">
+                        <canvas id="scatterChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Dimension Comparison -->
+                <div class="chart-card">
+                    <h3 data-en="Capability Dimension Analysis" data-zh="能力维度分析">Capability Dimension Analysis</h3>
+                    <div class="chart-canvas">
+                        <canvas id="dimensionChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Proficiency Distribution -->
+                <div class="chart-card full-width-chart">
+                    <h3 data-en="Proficiency Level Distribution" data-zh="熟练度等级分布">Proficiency Level Distribution</h3>
+                    <div class="chart-canvas">
+                        <canvas id="proficiencyChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Heatmap -->
+                <div class="chart-card full-width-chart">
+                    <h3 data-en="Performance Heatmap" data-zh="性能热力图">Performance Heatmap</h3>
+                    <div class="chart-canvas">
+                        <canvas id="heatmapChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 data-en="HCEF-LLM Framework" data-zh="HCEF-LLM 框架">HCEF-LLM Framework</h4>
+                    <p data-en="Advancing Large Language Models as Ideal Intelligent Partners through human-centric evaluation." data-zh="通过以人为中心的评估推进大语言模型成为理想智能伙伴。">Advancing Large Language Models as Ideal Intelligent Partners through human-centric evaluation.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-en="Quick Links" data-zh="快速链接">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-en="Home" data-zh="首页">Home</a></li>
+                        <li><a href="index.html#leaderboard" data-en="Leaderboard" data-zh="排行榜">Leaderboard</a></li>
+                        <li><a href="visualization.html" data-en="Visualization" data-zh="可视化">Visualization</a></li>
+                        <li><a href="https://github.com/your-repo/hcef-llm" data-en="GitHub Repository" data-zh="GitHub 仓库">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-en="Contact" data-zh="联系方式">Contact</h4>
+                    <p>Pingfan Wang<br>pingfan.wang@example.com</p>
+                    <p>Linyuan Deng<br>dolly_dev@163.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HCEF-LLM Framework. <span data-en="All rights reserved." data-zh="保留所有权利。">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="visualization.js"></script>
+</body>
+</html>
