@@ -158,15 +158,13 @@ HCEF-LLM（大语言模型人本评估框架）是一个综合性评估框架，
 
 ## 📊 评估结果
 
-排行榜包含各种最先进语言模型的评估结果：
+排行榜包含了多个最先进的语言模型的评估结果：
 
-- GPT-4 Turbo
-- Claude 3.5 Sonnet
-- Gemini 1.5 Pro
-- GPT-4o
-- Claude 3 Opus
-- Llama 3.1 405B
-- 等等...
+- OpenAI o4 mini
+- OpenAI GPT 4.1
+- Claude 4 Sonnet
+- Gemini 2.5 Pro
+- Qwen3 235B
 
 每个模型都在所有六个能力维度上进行评估，并被分配一个整体熟练度等级。
 

@@ -159,13 +159,11 @@ The Core Capability Dimensions (CDs) are fundamental abilities required for prof
 
 The leaderboard includes evaluation results for various state-of-the-art language models:
 
-- GPT-4 Turbo
-- Claude 3.5 Sonnet
-- Gemini 1.5 Pro
-- GPT-4o
-- Claude 3 Opus
-- Llama 3.1 405B
-- And more...
+- OpenAI o4 mini
+- OpenAI GPT 4.1
+- Claude 4 Sonnet
+- Gemini 2.5 Pro
+- Qwen3 235B
 
 Each model is evaluated across all six capability dimensions and assigned an overall proficiency level.
 
