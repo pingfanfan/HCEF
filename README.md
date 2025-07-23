@@ -175,11 +175,5 @@ Each model is evaluated across all six capability dimensions and assigned an ove
 ## 📚 Citation
 
 If you use this framework in your research, please cite:
-
-```bibtex
-@article{wang2024hcef,
-  title={HCEF-LLM: Human-Centric Evaluation Framework for Large Language Models as Ideal Intelligent Partners},
-  author={Wang, Pingfan and Deng, Linyuan},
-  year={2024}
-}
-```
+Pingfan Wang, Linyuan Deng. HCEF-LLM: A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners. TechRxiv. July 23, 2025.
+DOI: 10.36227/techrxiv.175329267.71975279/v1
