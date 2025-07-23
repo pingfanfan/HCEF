@@ -176,5 +176,15 @@ HCEF-LLM（以人为本的大语言模型评估框架）是一个综合性评估
 ## 📚 引用
 
 如果您在研究中使用此框架，请引用：
-Pingfan Wang, Linyuan Deng. HCEF-LLM: A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners. TechRxiv. July 23, 2025.
-DOI: 10.36227/techrxiv.175329267.71975279/v1
+
+**BibTeX:**
+```bibtex
+@misc{wang2025hcef,
+  title        = {HCEF-LLM: A Human-Centric Evaluation Framework for Advancing Large Language Models as Ideal Intelligent Partners},
+  author       = {Wang, Pingfan and Deng, Linyuan},
+  year         = {2025},
+  month        = {July},
+  publisher    = {TechRxiv},
+  doi          = {10.36227/techrxiv.175329267.71975279/v1},
+  url          = {https://doi.org/10.36227/techrxiv.175329267.71975279/v1}
+}
